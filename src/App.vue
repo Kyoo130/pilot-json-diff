@@ -1,5 +1,7 @@
 <template>
-  <h1>JSON DIFF</h1>
+  <div id="app">
+    <h1>JSON DIFF</h1>
+  </div>
 </template>
 
 <script>
