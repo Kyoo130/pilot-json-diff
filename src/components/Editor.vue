@@ -1,6 +1,6 @@
 <template>
-  <div class="editor">
-    <h3>{{ item.name }}</h3>
+  <div class="editor container">
+    <h3 class="title">{{ item.name }}</h3>
     <textarea rows="15"/>
   </div>
 </template>
@@ -18,10 +18,9 @@ export default {
 .editor {
   width: 50%;
   float: left;
-  padding: 1.5rem 1.5rem;
 }
 
-.editor > h3 {
+.title {
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 0.8rem;
