@@ -6,6 +6,7 @@
 
 <br/>
 
+
 ## 💻 사용 기술
 + Vue 3
 + vue-router
@@ -20,6 +21,11 @@
 + IDE : IntelliJ
 + Platform : PC Web
 + Test Browser : Chrome v.101.0.4951.64
+
+<br />
+
+## 🔗 테스트 URL
++ https://pilot-json-diff-841febqaw-kyoo130.vercel.app/
 
 <br />
 
