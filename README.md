@@ -8,7 +8,8 @@
 
 ## 💻 사용 기술
 + Vue 3
-+ (추가 예정)
++ vue-router
++ vue-code-diff
 
 <br/>
 
