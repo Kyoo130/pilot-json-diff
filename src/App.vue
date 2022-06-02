@@ -2,7 +2,13 @@
   <div id="app">
     <Header />
     <main class="main">
-      <router-view :editors="editors" :obj1="obj1" :obj2="obj2" />
+      <router-view
+        @prevObj="obj1 = $event"
+        @currentObj="obj2 = $event"
+        :obj1="obj1"
+        :obj2="obj2"
+        :editors="editors"
+      />
     </main>
   </div>
 </template>
@@ -19,15 +25,15 @@ export default {
         { id: 0, name: "Prev" },
         { id: 1, name: "Current" },
       ],
-      obj1: `{"name":"hello", "age":20}`,
-      obj2: `{"name":"world", "age":20}`,
+      obj1: ``,
+      obj2: ``,
     };
   },
   methods: {
     jsonDiff() {
       let isDiff = JSON.stringify(this.obj1) === JSON.stringify(this.obj2);
-      console.log(isDiff)
-    }
+      console.log(isDiff);
+    },
   },
   components: { Header },
 };
@@ -41,8 +47,23 @@ export default {
   color: #181818;
 }
 
-.main {
-  display: flow-root;
+.submit-btn {
+  display: block;
+  width: 25%;
+  border: none;
+  border-radius: 5px;
+  background: #bdbdbd;
+  padding: 0.5rem 0;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: 400ms;
+  cursor: pointer;
 }
 
+.submit-btn:hover {
+  background: #ff6372;
+  color: #fff;
+}
 </style>

@@ -1,9 +1,13 @@
 import VueRouter from "vue-router";
-import { Home, Detail } from "@/pages";
+import { Home, Detail, Main } from "@/pages";
 
 const routes = [
   {
     path: "/",
+    component: Main,
+  },
+  {
+    path: "/home",
     component: Home,
   },
   {
