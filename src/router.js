@@ -3,7 +3,7 @@ import { Home, Diff } from "@/pages";
 
 const routes = [
   {
-    path: "/home",
+    path: "/",
     component: Home,
   },
   {
