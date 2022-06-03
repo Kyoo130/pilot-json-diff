@@ -10,7 +10,7 @@
 ## 💻 사용 기술
 + Vue 3
 + vue-router
-+ vue-code-diff
++ ~vue-code-diff~ (삭제)
 
 <br/>
 
@@ -25,7 +25,7 @@
 <br />
 
 ## 🔗 테스트 URL
-+ https://pilot-json-diff-841febqaw-kyoo130.vercel.app/
++ https://pilot-json-diff.vercel.app/diff
 
 <br />
 
