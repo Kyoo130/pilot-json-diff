@@ -1,5 +1,4 @@
 import Home from "@/pages/Home";
-import Detail from "@/pages/Detail";
-import Main from "@/pages/Main";
+import Diff from "@/pages/Diff";
 
-export { Home, Detail, Main };
+export { Home, Diff };

@@ -3,11 +3,13 @@
     <Header />
     <main class="main">
       <router-view
-        @prevObj="obj1 = $event"
-        @currentObj="obj2 = $event"
-        :obj1="obj1"
-        :obj2="obj2"
-        :editors="editors"
+        @prevObj="json1 = $event"
+        @currentObj="json2 = $event"
+        @compareData="compareData"
+        @diffJson="jsonDiff(json1, json2)"
+        :prevData="json1"
+        :currentData="json2"
+        :resultData="resultData"
       />
     </main>
   </div>
@@ -21,18 +23,27 @@ export default {
   name: "App",
   data() {
     return {
-      editors: [
-        { id: 0, name: "Prev" },
-        { id: 1, name: "Current" },
-      ],
-      obj1: ``,
-      obj2: ``,
+      json1: { name: "hello", age: 20 },
+      json2: { name: "world", age: 20 },
+      resultData: {},
     };
   },
   methods: {
-    jsonDiff() {
-      let isDiff = JSON.stringify(this.obj1) === JSON.stringify(this.obj2);
-      console.log(isDiff);
+    compareData() {
+      // this.resultData = this.prevData;
+      this.$router.push("diff");
+    },
+    jsonDiff(o1, o2) {
+      Object.keys(o2).reduce((diff, key) => {
+        if (o1[key] === o2[key]) {
+          return this.resultData = diff;
+        }
+        return {
+          // ...diff,
+          ...o1,
+          [key]: o2[key] + ` #값이 다름`,
+        };
+      }, {});
     },
   },
   components: { Header },

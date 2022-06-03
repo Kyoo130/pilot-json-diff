@@ -1,29 +1,58 @@
 <template>
   <section>
-    <Editor
-      @iptValue="$emit('iptValue', $event)"
-      v-for="item in editors"
-      :key="item.id"
-      :item="item"
-      :obj1="obj1"
-      :obj2="obj2"
-    />
-    <button class="submit-btn">제출하기</button>
+    <ul class="editors">
+      <li class="editor">
+        <h3 class="title">JSON1</h3>
+        <textarea rows="25" @input="$emit('prevObj', $event.target.value)" />
+      </li>
+
+      <li class="editor">
+        <h3 class="title">JSON2</h3>
+        <textarea rows="25" @input="$emit('currentObj', $event.target.value)" />
+      </li>
+    </ul>
+    <button class="submit-btn" @click="$emit('compareData')">검사하기</button>
   </section>
 </template>
 
 <script>
-import { Editor } from "@/components";
-
 export default {
   name: `Home`,
   props: {
-    editors: Array,
-    obj1: String,
-    obj2: String,
+    prevData: Object,
+    currentData: Object,
+    resultData: Object,
   },
-  components: { Editor },
+  methods: {},
+  components: {},
 };
 </script>
 
-<style></style>
+<style>
+.editors {
+  display: flow-root;
+  margin-bottom: 1rem;
+}
+
+.editor {
+  width: 50%;
+  float: left;
+  padding: 1.5rem 1.5rem;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+  text-align: center;
+}
+
+.editor > textarea {
+  width: 100%;
+  border: #c1c1c1 1px solid;
+  border-radius: 5px;
+  outline-color: #ff6372;
+  resize: none;
+}
+</style>
+
