@@ -45,7 +45,6 @@ export default {
     resultJson: Array,
     getJsonFB: Function,
   },
-  methods: {},
   mounted() {
     this.getJsonFB();
   },

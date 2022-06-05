@@ -1,7 +1,5 @@
 <template>
   <section>
-    <p class="notification">현재 JSON Data는 수정할 수 없습니다.</p>
-
     <ul class="editors">
       <li class="editor">
         <h3 class="title">JSON1</h3>
@@ -9,7 +7,6 @@
           class="text-cont"
           rows="25"
           @input="$emit('prevObj', $event.target.value)"
-          readonly
         />
       </li>
 
@@ -19,7 +16,6 @@
           class="text-cont"
           rows="25"
           @input="$emit('currentObj', $event.target.value)"
-          readonly
         />
       </li>
     </ul>
@@ -34,22 +30,10 @@ export default {
     json1: Object,
     json2: Object,
   },
-  methods: {},
-  components: {},
 };
 </script>
 
 <style>
-.notification {
-  background: #eee;
-  margin: 1.5rem 1.5rem;
-  padding: 1rem 1rem;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: 600;
-  color: #ff6372;
-}
-
 .editors {
   display: flow-root;
   margin-bottom: 1rem;

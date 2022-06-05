@@ -6,9 +6,9 @@
         :json1="json1"
         :json2="json2"
         :resultJson="resultJson"
-        @prevObj="json1 = $event"
-        @currentObj="json2 = $event"
-        @addJsonFB="addJsonFB(json1, json2)"
+        @prevObj="prev = $event"
+        @currentObj="current = $event"
+        @addJsonFB="addJsonFB(prev, current)"
         :getJsonFB="getJsonFB"
       />
     </main>
@@ -24,8 +24,10 @@ export default {
   name: "App",
   data() {
     return {
-      json1: { name: "hello", age: 20 },
-      json2: { name: "world", age: 20 },
+      prev: "",
+      current: "",
+      json1: {},
+      json2: {},
       resultJson: [],
     };
   },
@@ -48,16 +50,32 @@ export default {
       }, {});
     },
     async addJsonFB(o1, o2) {
-      let docData = {
-        resultJson: [{ ...o1 }, { ...o2 }],
-      };
-      await firestore
-        .collection("data")
-        .add(docData)
-        .then((doc) => {
-          this.compareJson(o1, o2);
-          this.$router.push(`/diff/${doc.id}`)
-        });
+      try {
+        let docData = {
+          resultJson: [{ ...JSON.parse(o1) }, { ...JSON.parse(o2) }],
+        };
+
+        if (o1 === o2) {
+          alert(`"JSON1"과 "JSON2"에 입력된 데이터가 같습니다.`);
+          return;
+        }
+
+        await firestore
+          .collection("data")
+          .add(docData)
+          .then((doc) => {
+            let obj1 = { ...JSON.parse(o1) };
+            let obj2 = { ...JSON.parse(o2) };
+            this.compareJson(obj1, obj2);
+            this.$router.push(`/diff/${doc.id}`);
+          })
+          .catch((error) => {
+            console.log("Error", error);
+          });
+      } catch (err) {
+        alert(`JSON 형태의 데이터만 "비교하기"가 가능합니다.\n( error: ${err.message} )`)
+        console.log("err", err);
+      }
     },
     async getJsonFB() {
       const jsonDB = firestore.collection("data");
@@ -70,9 +88,9 @@ export default {
             this.$router.replace("/404");
             return;
           }
-          let obj1 = doc.data().resultJson[0];
-          let obj2 = doc.data().resultJson[1];
-          this.compareJson(obj1, obj2);
+          this.json1 = doc.data().resultJson[0];
+          this.json2 = doc.data().resultJson[1];
+          this.compareJson(this.json1, this.json2);
         })
         .catch((error) => {
           console.log("Error", error);
