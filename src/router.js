@@ -1,5 +1,5 @@
 import VueRouter from "vue-router";
-import { Home, Diff } from "@/pages";
+import {Home, Diff, NotFound} from "@/pages";
 
 const routes = [
   {
@@ -7,8 +7,12 @@ const routes = [
     component: Home,
   },
   {
-    path: "/diff",
+    path: "/diff/:id",
     component: Diff,
+  },
+  {
+    path: "*",
+    component: NotFound
   },
 ];
 
