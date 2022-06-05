@@ -25,7 +25,7 @@
 <br />
 
 ## 🔗 테스트 URL
-+ https://pilot-json-diff.vercel.app/
++ https://json-diff-46e71.web.app
 
 <br />
 
