@@ -8,7 +8,6 @@
         <textarea
           class="text-cont"
           rows="25"
-          :value="JSON.stringify(json1)"
           @input="$emit('prevObj', $event.target.value)"
           readonly
         />
@@ -17,15 +16,14 @@
       <li class="editor">
         <h3 class="title">JSON2</h3>
         <textarea
-            class="text-cont"
-            rows="25"
-          :value="JSON.stringify(json2)"
+          class="text-cont"
+          rows="25"
           @input="$emit('currentObj', $event.target.value)"
           readonly
         />
       </li>
     </ul>
-    <button class="submit-btn" @click="$emit('compareData')">검사하기</button>
+    <button class="submit-btn" @click="$emit('addJsonFB')">비교하기</button>
   </section>
 </template>
 

@@ -8,7 +8,8 @@
         :resultJson="resultJson"
         @prevObj="json1 = $event"
         @currentObj="json2 = $event"
-        @compareData="compareData(json1, json2)"
+        @addJsonFB="addJsonFB(json1, json2)"
+        :getJsonFB="getJsonFB"
       />
     </main>
   </div>
@@ -17,6 +18,7 @@
 <script>
 import "@/static/css/reset.css";
 import { Header } from "@/components";
+import { firestore } from "@/firebase";
 
 export default {
   name: "App",
@@ -28,14 +30,13 @@ export default {
     };
   },
   methods: {
-    compareData(o1, o2) {
+    compareJson(o1, o2) {
       Object.keys(o2).reduce((diff, key) => {
         if (o1[key] === o2[key]) {
           return diff;
         }
         return (this.resultJson = [
           {
-            // ...o1,
             ...diff,
             [key]: o1[key],
           },
@@ -45,8 +46,38 @@ export default {
           },
         ]);
       }, {});
-      this.$router.push("diff");
-    }
+    },
+    async addJsonFB(o1, o2) {
+      let docData = {
+        resultJson: [{ ...o1 }, { ...o2 }],
+      };
+      await firestore
+        .collection("data")
+        .add(docData)
+        .then((doc) => {
+          this.compareJson(o1, o2);
+          this.$router.push(`/diff/${doc.id}`)
+        });
+    },
+    async getJsonFB() {
+      const jsonDB = firestore.collection("data");
+      await jsonDB
+        .doc(this.$route.params.id)
+        .get()
+        .then((doc) => {
+          if (doc.data() === undefined) {
+            console.log("컬렉션에 데이터가 존재하지 않습니다.", doc.data());
+            this.$router.replace("/404");
+            return;
+          }
+          let obj1 = doc.data().resultJson[0];
+          let obj2 = doc.data().resultJson[1];
+          this.compareJson(obj1, obj2);
+        })
+        .catch((error) => {
+          console.log("Error", error);
+        });
+    },
   },
   components: { Header },
 };

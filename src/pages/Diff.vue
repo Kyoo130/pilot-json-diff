@@ -14,21 +14,21 @@
       <li class="editor">
         <h3 class="sub-title">JSON1</h3>
         <textarea
-            class="text-cont"
-            rows="15"
-            :value="JSON.stringify(json1)"
-            @input="$emit('prevObj', $event.target.value)"
-            readonly
+          class="text-cont"
+          rows="15"
+          :value="JSON.stringify(json1)"
+          @input="$emit('prevObj', $event.target.value)"
+          readonly
         />
       </li>
       <li class="editor">
         <h3 class="sub-title">JSON2</h3>
         <textarea
-            class="text-cont"
-            rows="15"
-            :value="JSON.stringify(json2)"
-            @input="$emit('currentObj', $event.target.value)"
-            readonly
+          class="text-cont"
+          rows="15"
+          :value="JSON.stringify(json2)"
+          @input="$emit('currentObj', $event.target.value)"
+          readonly
         />
       </li>
     </ul>
@@ -43,9 +43,12 @@ export default {
     json1: Object,
     json2: Object,
     resultJson: Array,
-    currentResult: Object,
+    getJsonFB: Function,
   },
   methods: {},
+  mounted() {
+    this.getJsonFB();
+  },
 };
 </script>
 
