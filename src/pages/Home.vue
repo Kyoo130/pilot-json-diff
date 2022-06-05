@@ -6,6 +6,7 @@
         <textarea
           class="text-cont"
           rows="25"
+          :value="prev"
           @input="$emit('prevObj', $event.target.value)"
         />
       </li>
@@ -15,6 +16,7 @@
         <textarea
           class="text-cont"
           rows="25"
+          :value="current"
           @input="$emit('currentObj', $event.target.value)"
         />
       </li>
@@ -27,6 +29,8 @@
 export default {
   name: `Home`,
   props: {
+    prev: String,
+    current: String,
     json1: Object,
     json2: Object,
   },

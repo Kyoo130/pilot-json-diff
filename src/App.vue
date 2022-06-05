@@ -3,6 +3,8 @@
     <Header />
     <main class="main">
       <router-view
+        :prev="prev"
+        :current="current"
         :json1="json1"
         :json2="json2"
         :resultJson="resultJson"
@@ -24,8 +26,8 @@ export default {
   name: "App",
   data() {
     return {
-      prev: "",
-      current: "",
+      prev: `{"name":"hello","age":20}`,
+      current: `{"name":"world","age":20}`,
       json1: {},
       json2: {},
       resultJson: [],
@@ -73,7 +75,9 @@ export default {
             console.log("Error", error);
           });
       } catch (err) {
-        alert(`JSON 형태의 데이터만 "비교하기"가 가능합니다.\n( error: ${err.message} )`)
+        alert(
+          `JSON 형태의 데이터만 "비교하기"가 가능합니다.\n( error: ${err.message} )`
+        );
         console.log("err", err);
       }
     },
