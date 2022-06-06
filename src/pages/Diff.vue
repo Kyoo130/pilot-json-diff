@@ -3,33 +3,12 @@
     <h2 class="title">Compare Result</h2>
     <ul class="results">
       <li class="result">
-        <p class="prev">{{ resultJson[0] }}</p>
+        <h3 class="sub-title">JSON1</h3>
+        <p class="prev">{{ JSON.stringify(resultJson[0], null, 4) }}</p>
       </li>
       <li class="result">
-        <p class="current">{{ resultJson[1] }}</p>
-      </li>
-    </ul>
-
-    <ul class="editors">
-      <li class="editor">
-        <h3 class="sub-title">JSON1</h3>
-        <textarea
-          class="text-cont"
-          rows="15"
-          :value="JSON.stringify(json1)"
-          @input="$emit('prevObj', $event.target.value)"
-          readonly
-        />
-      </li>
-      <li class="editor">
         <h3 class="sub-title">JSON2</h3>
-        <textarea
-          class="text-cont"
-          rows="15"
-          :value="JSON.stringify(json2)"
-          @input="$emit('currentObj', $event.target.value)"
-          readonly
-        />
+        <p class="current">{{ JSON.stringify(resultJson[1], null, 4) }}</p>
       </li>
     </ul>
     <button class="submit-btn" @click="$router.push('/')">돌아가기</button>
@@ -40,8 +19,6 @@
 export default {
   name: `Diff`,
   props: {
-    json1: Object,
-    json2: Object,
     resultJson: Array,
     getJsonFB: Function,
   },
@@ -52,36 +29,42 @@ export default {
 </script>
 
 <style>
+
+.container{
+  margin-bottom: 2.5rem;
+}
+
 .results {
   display: flow-root;
-  margin: 0 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #bdbdbd;
+  margin: 2rem 1.5rem;
 }
 
 .result {
   width: 50%;
   float: left;
+  white-space: pre-wrap;
 }
 
 .sub-title {
   font-size: 0.9rem;
-  margin: 1rem 0;
+  margin-bottom: 0.8rem;
   text-align: center;
 }
 
 .prev,
 .current {
-  padding-left: 0.5rem;
+  padding: 1rem 1.2rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
 }
 
 .prev {
   background-color: rgba(255, 99, 114, 0.4);
-  margin: 1rem 1.5rem 1.5rem 0;
+  margin-right: 1.5rem;
 }
 
 .current {
   background-color: rgba(86, 196, 139, 0.4);
-  margin: 1rem 0 1.5rem 1.5rem;
+  margin-left: 1.5rem;
 }
 </style>
