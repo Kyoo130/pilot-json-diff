@@ -5,8 +5,6 @@
       <router-view
         :prev="prev"
         :current="current"
-        :json1="json1"
-        :json2="json2"
         :resultJson="resultJson"
         @prevObj="prev = $event"
         @currentObj="current = $event"
@@ -28,47 +26,45 @@ export default {
     return {
       prev: `{"name":"hello","age":20}`,
       current: `{"name":"world","age":20}`,
-      json1: {},
-      json2: {},
       resultJson: [],
     };
   },
   methods: {
     compareJson(o1, o2) {
-      Object.keys(o2).reduce((diff, key) => {
-        if (o1[key] === o2[key]) {
-          return diff;
+      let jsonObj = {};
+      for (let i in o2) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (!o1.hasOwnProperty(i) || o2[i] !== o1[i]) {
+          if (
+            !Array.isArray(o2[i]) ||
+            !(JSON.stringify(o2[i]) === JSON.stringify(o1[i]))
+          ) {
+            jsonObj[i] = o2[i];
+          }
         }
-        return (this.resultJson = [
-          {
-            ...diff,
-            [key]: o1[key],
-          },
-          {
-            ...diff,
-            [key]: o2[key],
-          },
-        ]);
-      }, {});
+      }
+      return jsonObj;
     },
     async addJsonFB(o1, o2) {
       try {
-        let docData = {
-          resultJson: [{ ...JSON.parse(o1) }, { ...JSON.parse(o2) }],
-        };
-
         if (o1 === o2) {
           alert(`"JSON1"과 "JSON2"에 입력된 데이터가 같습니다.`);
           return;
         }
 
+        let json1 = { ...JSON.parse(o1) };
+        let json2 = { ...JSON.parse(o2) };
+        let docData = {
+          resultJson: [json1, json2],
+        };
+
         await firestore
-          .collection("data")
+          .collection("compare")
           .add(docData)
           .then((doc) => {
-            let obj1 = { ...JSON.parse(o1) };
-            let obj2 = { ...JSON.parse(o2) };
-            this.compareJson(obj1, obj2);
+            let obj1 = this.compareJson(json1, json2);
+            let obj2 = this.compareJson(json2, json1);
+            this.resultJson = [obj1, obj2];
             this.$router.push(`/diff/${doc.id}`);
           })
           .catch((error) => {
@@ -82,7 +78,7 @@ export default {
       }
     },
     async getJsonFB() {
-      const jsonDB = firestore.collection("data");
+      const jsonDB = firestore.collection("compare");
       await jsonDB
         .doc(this.$route.params.id)
         .get()
@@ -92,9 +88,15 @@ export default {
             this.$router.replace("/404");
             return;
           }
-          this.json1 = doc.data().resultJson[0];
-          this.json2 = doc.data().resultJson[1];
-          this.compareJson(this.json1, this.json2);
+          let obj1 = this.compareJson(
+            doc.data().resultJson[0],
+            doc.data().resultJson[1]
+          );
+          let obj2 = this.compareJson(
+            doc.data().resultJson[1],
+            doc.data().resultJson[0]
+          );
+          this.resultJson = [obj1, obj2];
         })
         .catch((error) => {
           console.log("Error", error);

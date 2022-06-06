@@ -31,8 +31,6 @@ export default {
   props: {
     prev: String,
     current: String,
-    json1: Object,
-    json2: Object,
   },
 };
 </script>
@@ -40,13 +38,13 @@ export default {
 <style>
 .editors {
   display: flow-root;
-  margin-bottom: 1rem;
+  margin: 2rem 0;
 }
 
 .editor {
   width: 50%;
   float: left;
-  padding: 1.5rem 1.5rem;
+  padding: 0 1.5rem;
 }
 
 .title {
