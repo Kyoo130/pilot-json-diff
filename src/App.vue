@@ -46,42 +46,35 @@ export default {
       }
       return jsonObj;
     },
-    async addJsonFB(o1, o2) {
-      try {
-        if (o1 === o2) {
-          alert(`"JSON1"과 "JSON2"에 입력된 데이터가 같습니다.`);
-          return;
-        }
-
-        let json1 = { ...JSON.parse(o1) };
-        let json2 = { ...JSON.parse(o2) };
-        let docData = {
-          resultJson: [json1, json2],
-        };
-
-        await firestore
-          .collection("compare")
-          .add(docData)
-          .then((doc) => {
-            let obj1 = this.compareJson(json1, json2);
-            let obj2 = this.compareJson(json2, json1);
-            this.resultJson = [obj1, obj2];
-            this.$router.push(`/diff/${doc.id}`);
-            console.log(doc);
-          })
-          .catch((error) => {
-            console.log("Error", error);
-          });
-      } catch (err) {
-        alert(
-          `JSON 형태의 데이터만 "비교하기"가 가능합니다.\n( error: ${err.message} )`
-        );
-        console.log("err", err);
+    addJsonFB(o1, o2) {
+      if (o1 === o2) {
+        return alert(`"JSON1"과 "JSON2"에 입력된 데이터가 같습니다.`);
+      } else if (typeof o1 || typeof o2 === "object") {
+        return alert(`JSON 형태의 데이터만 "비교하기"가 가능합니다.`);
       }
+
+      let json1 = { ...JSON.parse(o1) };
+      let json2 = { ...JSON.parse(o2) };
+      let docData = {
+        resultJson: [json1, json2],
+      };
+      firestore
+        .collection("compare")
+        .add(docData)
+        .then((doc) => {
+          let obj1 = this.compareJson(json1, json2);
+          let obj2 = this.compareJson(json2, json1);
+          this.resultJson = [obj1, obj2];
+          this.$router.push(`/diff/${doc.id}`);
+          console.log(doc);
+        })
+        .catch((error) => {
+          console.log("Error", error);
+        });
     },
-    async getJsonFB() {
+    getJsonFB() {
       const jsonDB = firestore.collection("compare");
-      await jsonDB
+      jsonDB
         .doc(this.$route.params.id)
         .get()
         .then((doc) => {
@@ -113,7 +106,7 @@ export default {
         .doc(this.$route.params.id)
         .get()
         .then((doc) => {
-          console.log("doc", doc)
+          console.log("doc", doc);
           const biggerThanSf = citiesRef.orderBy("name").startAt(doc);
 
           console.log(biggerThanSf);
