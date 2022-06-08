@@ -12,6 +12,7 @@
         :getJsonFB="getJsonFB"
       />
     </main>
+    <button @click="queryPage">버튼</button>
   </div>
 </template>
 
@@ -32,14 +33,14 @@ export default {
   methods: {
     compareJson(o1, o2) {
       let jsonObj = {};
-      for (let i in o2) {
+      for (let i in o1) {
         // eslint-disable-next-line no-prototype-builtins
-        if (!o1.hasOwnProperty(i) || o2[i] !== o1[i]) {
+        if (!o2.hasOwnProperty(i) || o1[i] !== o2[i]) {
           if (
-            !Array.isArray(o2[i]) ||
-            !(JSON.stringify(o2[i]) === JSON.stringify(o1[i]))
+            !Array.isArray(o1[i]) ||
+            !(JSON.stringify(o1[i]) === JSON.stringify(o2[i]))
           ) {
-            jsonObj[i] = o2[i];
+            jsonObj[i] = o1[i];
           }
         }
       }
@@ -66,6 +67,7 @@ export default {
             let obj2 = this.compareJson(json2, json1);
             this.resultJson = [obj1, obj2];
             this.$router.push(`/diff/${doc.id}`);
+            console.log(doc);
           })
           .catch((error) => {
             console.log("Error", error);
@@ -100,6 +102,21 @@ export default {
         })
         .catch((error) => {
           console.log("Error", error);
+        });
+    },
+    queryPage() {
+      // const jsonDB = firestore.collection("compare");
+      console.log("시작");
+      const citiesRef = firestore.collection("compare");
+
+      return citiesRef
+        .doc(this.$route.params.id)
+        .get()
+        .then((doc) => {
+          console.log("doc", doc)
+          const biggerThanSf = citiesRef.orderBy("name").startAt(doc);
+
+          console.log(biggerThanSf);
         });
     },
   },
